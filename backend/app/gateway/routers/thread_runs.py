@@ -117,6 +117,7 @@ def _record_to_response(record: RunRecord) -> RunResponse:
 @require_permission("runs", "create", owner_check=True, require_existing=True)
 async def create_run(thread_id: str, body: RunCreateRequest, request: Request) -> RunResponse:
     """Create a background run (returns immediately)."""
+    logger.info("[FLOW] ➡️  POST /%s/runs — assistant=%s, model=%s", thread_id, body.assistant_id, (body.context or {}).get("model_name"))
     record = await start_run(body, thread_id, request)
     return _record_to_response(record)
 
@@ -130,6 +131,29 @@ async def stream_run(thread_id: str, body: RunCreateRequest, request: Request) -
     resource URL, matching the LangGraph Platform protocol.  The
     ``useStream`` React hook uses this to extract run metadata.
     """
+    logger.info(
+        "[FLOW] ➡️  POST /%s/runs/stream — assistant=%s, model=%s, stream_mode=%s\n"
+        "  input=%s\n"
+        "  command=%s\n"
+        "  config=%s\n"
+        "  context=%s\n"
+        "  metadata=%s\n"
+        "  interrupt_before=%s, interrupt_after=%s\n"
+        "  on_disconnect=%s, multitask_strategy=%s",
+        thread_id,
+        body.assistant_id,
+        (body.context or {}).get("model_name"),
+        body.stream_mode,
+        body.input,
+        body.command,
+        body.config,
+        body.context,
+        body.metadata,
+        body.interrupt_before,
+        body.interrupt_after,
+        body.on_disconnect,
+        body.multitask_strategy,
+    )
     bridge = get_stream_bridge(request)
     run_mgr = get_run_manager(request)
     record = await start_run(body, thread_id, request)

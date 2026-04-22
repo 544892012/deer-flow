@@ -165,6 +165,7 @@ class DanglingToolCallMiddleware(AgentMiddleware[AgentState]):
     ) -> ModelCallResult:
         patched = self._build_patched_messages(request.messages)
         if patched is not None:
+            logger.info("[FLOW]   🩹 DanglingToolCallMiddleware — patched dangling tool calls")
             request = request.override(messages=patched)
         return handler(request)
 
@@ -176,5 +177,6 @@ class DanglingToolCallMiddleware(AgentMiddleware[AgentState]):
     ) -> ModelCallResult:
         patched = self._build_patched_messages(request.messages)
         if patched is not None:
+            logger.info("[FLOW]   🩹 DanglingToolCallMiddleware — patched dangling tool calls (async)")
             request = request.override(messages=patched)
         return await handler(request)

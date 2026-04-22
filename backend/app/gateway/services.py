@@ -319,6 +319,7 @@ async def start_run(
     agent_factory = resolve_agent_factory(body.assistant_id)
     graph_input = normalize_input(body.input)
     config = build_run_config(thread_id, body.config, body.metadata, assistant_id=body.assistant_id)
+    logger.info("[FLOW] 📋 start_run — run_id=%s, thread_id=%s, assistant=%s", record.run_id, thread_id, body.assistant_id)
 
     # Merge DeerFlow-specific context overrides into both ``configurable`` and ``context``.
     # The ``context`` field is a custom extension for the langgraph-compat layer
@@ -329,6 +330,7 @@ async def start_run(
 
     stream_modes = normalize_stream_modes(body.stream_mode)
 
+    logger.info("[FLOW] 🚀 Launching background agent task — run_id=%s", record.run_id)
     task = asyncio.create_task(
         run_agent(
             bridge,

@@ -39,6 +39,30 @@
       ],
       "env": {},
       "description": "PostgreSQL database access"
+    },
+    "yfinance": {
+      "enabled": false,
+      "type": "stdio",
+      "command": "yfinance-mcp-server",
+      "args": [],
+      "env": {},
+      "description": "Yahoo Finance MCP server for global stock market data, financial statements, analyst data, options chains, and more. No API key required. Install: pip install yfinance-mcp-server"
+    },
+    "futu-stock": {
+      "enabled": false,
+      "type": "stdio",
+      "command": "futu-mcp-server",
+      "args": [],
+      "env": {
+        "FUTU_HOST": "127.0.0.1",
+        "FUTU_PORT": "11111",
+        "FUTU_ENABLE_POSITIONS": "1",
+        "FUTU_ENABLE_TRADING": "0",
+        "FUTU_TRADE_ENV": "SIMULATE",
+        "FUTU_SECURITY_FIRM": "FUTUSECURITIES",
+        "FUTU_TRD_MARKET": "HK"
+      },
+      "description": "Futu OpenAPI MCP server for HK/US/A-share market data, K-line, order book, and account queries. Requires OpenD gateway running locally. Install: pip install futu-stock-mcp-server"
     }
   },
   "skills": {}

@@ -214,10 +214,20 @@ class LLMErrorHandlingMiddleware(AgentMiddleware[AgentState]):
         if self._check_circuit():
             return AIMessage(content=self._build_circuit_breaker_message())
 
+        logger.info(
+            "[FLOW]   🤖 LLM call — model=%s, messages=%d, tools=%d",
+            getattr(request.model, "model_name", "unknown"),
+            len(request.messages),
+            len(request.tools) if request.tools else 0,
+        )
         attempt = 1
         while True:
             try:
                 response = handler(request)
+                logger.info(
+                    "[FLOW]   🤖 LLM response — has_tool_calls=%s",
+                    bool(getattr(response, "tool_calls", None) if hasattr(response, "tool_calls") else False),
+                )
                 self._record_success()
                 return response
             except GraphBubbleUp:
@@ -260,10 +270,20 @@ class LLMErrorHandlingMiddleware(AgentMiddleware[AgentState]):
         if self._check_circuit():
             return AIMessage(content=self._build_circuit_breaker_message())
 
+        logger.info(
+            "[FLOW]   🤖 LLM call (async) — model=%s, messages=%d, tools=%d",
+            getattr(request.model, "model_name", "unknown"),
+            len(request.messages),
+            len(request.tools) if request.tools else 0,
+        )
         attempt = 1
         while True:
             try:
                 response = await handler(request)
+                logger.info(
+                    "[FLOW]   🤖 LLM response (async) — has_tool_calls=%s",
+                    bool(getattr(response, "tool_calls", None) if hasattr(response, "tool_calls") else False),
+                )
                 self._record_success()
                 return response
             except GraphBubbleUp:

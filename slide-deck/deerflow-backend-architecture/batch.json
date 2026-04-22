@@ -1,0 +1,140 @@
+{
+  "jobs": 5,
+  "tasks": [
+    {
+      "id": "01-cover",
+      "promptFiles": ["prompts/01-slide-cover.md"],
+      "image": "01-slide-cover.png",
+      "provider": "replicate",
+      "model": "google/nano-banana-pro",
+      "ar": "16:9",
+      "quality": "2k"
+    },
+    {
+      "id": "02-project-overview",
+      "promptFiles": ["prompts/02-slide-project-overview.md"],
+      "image": "02-slide-project-overview.png",
+      "provider": "replicate",
+      "model": "google/nano-banana-pro",
+      "ar": "16:9",
+      "quality": "2k"
+    },
+    {
+      "id": "03-call-chain",
+      "promptFiles": ["prompts/03-slide-call-chain.md"],
+      "image": "03-slide-call-chain.png",
+      "provider": "replicate",
+      "model": "google/nano-banana-pro",
+      "ar": "16:9",
+      "quality": "2k"
+    },
+    {
+      "id": "04-factory-pattern",
+      "promptFiles": ["prompts/04-slide-factory-pattern.md"],
+      "image": "04-slide-factory-pattern.png",
+      "provider": "replicate",
+      "model": "google/nano-banana-pro",
+      "ar": "16:9",
+      "quality": "2k"
+    },
+    {
+      "id": "05-agent-lifecycle",
+      "promptFiles": ["prompts/05-slide-agent-lifecycle.md"],
+      "image": "05-slide-agent-lifecycle.png",
+      "provider": "replicate",
+      "model": "google/nano-banana-pro",
+      "ar": "16:9",
+      "quality": "2k"
+    },
+    {
+      "id": "06-react-loop",
+      "promptFiles": ["prompts/06-slide-react-loop.md"],
+      "image": "06-slide-react-loop.png",
+      "provider": "replicate",
+      "model": "google/nano-banana-pro",
+      "ar": "16:9",
+      "quality": "2k"
+    },
+    {
+      "id": "07-stategraph-nodes",
+      "promptFiles": ["prompts/07-slide-stategraph-nodes.md"],
+      "image": "07-slide-stategraph-nodes.png",
+      "provider": "replicate",
+      "model": "google/nano-banana-pro",
+      "ar": "16:9",
+      "quality": "2k"
+    },
+    {
+      "id": "08-middleware-system",
+      "promptFiles": ["prompts/08-slide-middleware-system.md"],
+      "image": "08-slide-middleware-system.png",
+      "provider": "replicate",
+      "model": "google/nano-banana-pro",
+      "ar": "16:9",
+      "quality": "2k"
+    },
+    {
+      "id": "09-tool-system",
+      "promptFiles": ["prompts/09-slide-tool-system.md"],
+      "image": "09-slide-tool-system.png",
+      "provider": "replicate",
+      "model": "google/nano-banana-pro",
+      "ar": "16:9",
+      "quality": "2k"
+    },
+    {
+      "id": "10-llm-decision",
+      "promptFiles": ["prompts/10-slide-llm-decision.md"],
+      "image": "10-slide-llm-decision.png",
+      "provider": "replicate",
+      "model": "google/nano-banana-pro",
+      "ar": "16:9",
+      "quality": "2k"
+    },
+    {
+      "id": "11-subagent",
+      "promptFiles": ["prompts/11-slide-subagent.md"],
+      "image": "11-slide-subagent.png",
+      "provider": "replicate",
+      "model": "google/nano-banana-pro",
+      "ar": "16:9",
+      "quality": "2k"
+    },
+    {
+      "id": "12-sandbox",
+      "promptFiles": ["prompts/12-slide-sandbox.md"],
+      "image": "12-slide-sandbox.png",
+      "provider": "replicate",
+      "model": "google/nano-banana-pro",
+      "ar": "16:9",
+      "quality": "2k"
+    },
+    {
+      "id": "13-streaming",
+      "promptFiles": ["prompts/13-slide-streaming.md"],
+      "image": "13-slide-streaming.png",
+      "provider": "replicate",
+      "model": "google/nano-banana-pro",
+      "ar": "16:9",
+      "quality": "2k"
+    },
+    {
+      "id": "14-debugging",
+      "promptFiles": ["prompts/14-slide-debugging.md"],
+      "image": "14-slide-debugging.png",
+      "provider": "replicate",
+      "model": "google/nano-banana-pro",
+      "ar": "16:9",
+      "quality": "2k"
+    },
+    {
+      "id": "15-back-cover",
+      "promptFiles": ["prompts/15-slide-back-cover.md"],
+      "image": "15-slide-back-cover.png",
+      "provider": "replicate",
+      "model": "google/nano-banana-pro",
+      "ar": "16:9",
+      "quality": "2k"
+    }
+  ]
+}

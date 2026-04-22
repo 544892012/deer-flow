@@ -80,6 +80,7 @@ class ThreadDataMiddleware(AgentMiddleware[ThreadDataMiddlewareState]):
 
     @override
     def before_agent(self, state: ThreadDataMiddlewareState, runtime: Runtime) -> dict | None:
+        logger.info("[FLOW]   📂 ThreadDataMiddleware.before_agent")
         context = runtime.context or {}
         thread_id = context.get("thread_id")
         if thread_id is None:

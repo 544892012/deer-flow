@@ -60,6 +60,7 @@ class MemoryMiddleware(AgentMiddleware[MemoryMiddlewareState]):
         Returns:
             None (no state changes needed from this middleware).
         """
+        logger.info("[FLOW]   🧠 MemoryMiddleware.after_agent — queuing memory update")
         config = self._memory_config or get_memory_config()
         if not config.enabled:
             return None

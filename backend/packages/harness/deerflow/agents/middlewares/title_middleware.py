@@ -177,8 +177,14 @@ class TitleMiddleware(AgentMiddleware[TitleMiddlewareState]):
 
     @override
     def after_model(self, state: TitleMiddlewareState, runtime: Runtime) -> dict | None:
-        return self._generate_title_result(state)
+        result = self._generate_title_result(state)
+        if result:
+            logger.info("[FLOW]   🏷️  TitleMiddleware.after_model — generated title: %s", result.get("title"))
+        return result
 
     @override
     async def aafter_model(self, state: TitleMiddlewareState, runtime: Runtime) -> dict | None:
-        return await self._agenerate_title_result(state)
+        result = await self._agenerate_title_result(state)
+        if result:
+            logger.info("[FLOW]   🏷️  TitleMiddleware.aafter_model — generated title: %s", result.get("title"))
+        return result

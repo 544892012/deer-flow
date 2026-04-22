@@ -25,8 +25,7 @@ from typing import TYPE_CHECKING, Any, Literal, cast
 
 from langgraph.checkpoint.base import empty_checkpoint
 
-if TYPE_CHECKING:
-    from langchain_core.messages import HumanMessage
+from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
 
 from deerflow.config.app_config import AppConfig
 from deerflow.runtime.serialization import serialize
@@ -146,8 +145,6 @@ async def run_agent(
     pre_run_checkpoint_id: str | None = None
     pre_run_snapshot: dict[str, Any] | None = None
     snapshot_capture_failed = False
-
-    journal = None
 
     journal = None
 

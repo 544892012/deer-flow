@@ -42,8 +42,12 @@ class ToolErrorHandlingMiddleware(AgentMiddleware[AgentState]):
         request: ToolCallRequest,
         handler: Callable[[ToolCallRequest], ToolMessage | Command],
     ) -> ToolMessage | Command:
+        tool_name = request.tool_call.get("name", "unknown")
+        logger.info("[FLOW]   🔨 Tool call: %s (id=%s)", tool_name, request.tool_call.get("id"))
         try:
-            return handler(request)
+            result = handler(request)
+            logger.info("[FLOW]   ✅ Tool done: %s", tool_name)
+            return result
         except GraphBubbleUp:
             # Preserve LangGraph control-flow signals (interrupt/pause/resume).
             raise
@@ -57,8 +61,12 @@ class ToolErrorHandlingMiddleware(AgentMiddleware[AgentState]):
         request: ToolCallRequest,
         handler: Callable[[ToolCallRequest], Awaitable[ToolMessage | Command]],
     ) -> ToolMessage | Command:
+        tool_name = request.tool_call.get("name", "unknown")
+        logger.info("[FLOW]   🔨 Tool call (async): %s (id=%s)", tool_name, request.tool_call.get("id"))
         try:
-            return await handler(request)
+            result = await handler(request)
+            logger.info("[FLOW]   ✅ Tool done (async): %s", tool_name)
+            return result
         except GraphBubbleUp:
             # Preserve LangGraph control-flow signals (interrupt/pause/resume).
             raise

@@ -65,6 +65,7 @@ def get_available_tools(
     """
     config = app_config or get_app_config()
     tool_configs = [tool for tool in config.tools if groups is None or tool.group in groups]
+    logger.info(f"Tool configs: {[t.name for t in tool_configs]}")
 
     # Do not expose host bash by default when LocalSandboxProvider is active.
     if not is_host_bash_allowed(config):
@@ -86,6 +87,7 @@ def get_available_tools(
             )
 
     loaded_tools = [_ensure_sync_invocable_tool(t) for _, t in loaded_tools_raw]
+    logger.info(f"Loaded tools: {[t.name for t in loaded_tools]}")
 
     # Conditionally add tools based on config
     builtin_tools = BUILTIN_TOOLS.copy()
@@ -94,6 +96,7 @@ def get_available_tools(
         from deerflow.tools.skill_manage_tool import skill_manage_tool
 
         builtin_tools.append(skill_manage_tool)
+    logger.info(f"Builtin tools: {[t.name for t in builtin_tools]}")
 
     # Add subagent tools only if enabled via runtime parameter
     if subagent_enabled:
@@ -103,6 +106,9 @@ def get_available_tools(
     # If no model_name specified, use the first model (default)
     if model_name is None and config.models:
         model_name = config.models[0].name
+        logger.info(f"Model name: {model_name}")
+    
+    logger.info(f" -- Model_name: {config.models[0].name}")
 
     # Add view_image_tool only if the model supports vision
     model_config = config.get_model_config(model_name) if model_name else None
@@ -145,6 +151,7 @@ def get_available_tools(
             logger.warning("MCP module not available. Install 'langchain-mcp-adapters' package to enable MCP tools.")
         except Exception as e:
             logger.error(f"Failed to get cached MCP tools: {e}")
+    logger.info(f"MCP tools: {[t.name for t in mcp_tools]}")
 
     # Add invoke_acp_agent tool if any ACP agents are configured
     acp_tools: list[BaseTool] = []
@@ -164,6 +171,7 @@ def get_available_tools(
         logger.warning(f"Failed to load ACP tool: {e}")
 
     logger.info(f"Total tools loaded: {len(loaded_tools)}, built-in tools: {len(builtin_tools)}, MCP tools: {len(mcp_tools)}, ACP tools: {len(acp_tools)}")
+    logger.info(f"ACP tools: {[t.name for t in acp_tools]}")
 
     # Deduplicate by tool name — config-loaded tools take priority, followed by
     # built-ins, MCP tools, and ACP tools.  Duplicate names cause the LLM to

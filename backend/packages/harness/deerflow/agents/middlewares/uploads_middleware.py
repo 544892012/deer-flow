@@ -186,23 +186,8 @@ class UploadsMiddleware(AgentMiddleware[UploadsMiddlewareState]):
 
     @override
     def before_agent(self, state: UploadsMiddlewareState, runtime: Runtime) -> dict | None:
-        """Inject uploaded files information before agent execution.
-
-        New files come from the current message's additional_kwargs.files.
-        Historical files are scanned from the thread's uploads directory,
-        excluding the new ones.
-
-        Prepends <uploaded_files> context to the last human message content.
-        The original additional_kwargs (including files metadata) is preserved
-        on the updated message so the frontend can read it from the stream.
-
-        Args:
-            state: Current agent state.
-            runtime: Runtime context containing thread_id.
-
-        Returns:
-            State updates including uploaded files list.
-        """
+        """Inject uploaded files information before agent execution."""
+        logger.info("[FLOW]   📎 UploadsMiddleware.before_agent")
         messages = list(state.get("messages", []))
         if not messages:
             return None

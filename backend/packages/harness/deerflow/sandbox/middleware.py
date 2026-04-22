@@ -50,6 +50,7 @@ class SandboxMiddleware(AgentMiddleware[SandboxMiddlewareState]):
 
     @override
     def before_agent(self, state: SandboxMiddlewareState, runtime: Runtime) -> dict | None:
+        logger.info("[FLOW]   📦 SandboxMiddleware.before_agent — lazy_init=%s", self._lazy_init)
         # Skip acquisition if lazy_init is enabled
         if self._lazy_init:
             return super().before_agent(state, runtime)
@@ -66,6 +67,7 @@ class SandboxMiddleware(AgentMiddleware[SandboxMiddlewareState]):
 
     @override
     def after_agent(self, state: SandboxMiddlewareState, runtime: Runtime) -> dict | None:
+        logger.info("[FLOW]   📦 SandboxMiddleware.after_agent")
         sandbox = state.get("sandbox")
         if sandbox is not None:
             sandbox_id = sandbox["sandbox_id"]

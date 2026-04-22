@@ -1,0 +1,6 @@
+{
+  "venvPath": "backend",
+  "venv": ".venv",
+  "pythonVersion": "3.12",
+  "extraPaths": ["backend", "backend/packages/harness"]
+}

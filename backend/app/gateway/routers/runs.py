@@ -41,6 +41,28 @@ async def stateless_stream(body: RunCreateRequest, request: Request) -> Streamin
     Otherwise a new temporary thread is created.
     """
     thread_id = _resolve_thread_id(body)
+    logger.info(
+        "[FLOW] ➡️  POST /api/runs/stream — thread_id=%s, assistant=%s, model=%s, stream_mode=%s\n"
+        "  input=%s\n"
+        "  command=%s\n"
+        "  config=%s\n"
+        "  context=%s\n"
+        "  metadata=%s\n"
+        "  interrupt_before=%s, interrupt_after=%s\n"
+        "  on_disconnect=%s",
+        thread_id,
+        body.assistant_id,
+        (body.context or {}).get("model_name"),
+        body.stream_mode,
+        body.input,
+        body.command,
+        body.config,
+        body.context,
+        body.metadata,
+        body.interrupt_before,
+        body.interrupt_after,
+        body.on_disconnect,
+    )
     bridge = get_stream_bridge(request)
     run_mgr = get_run_manager(request)
     record = await start_run(body, thread_id, request)
