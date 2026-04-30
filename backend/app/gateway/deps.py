@@ -15,6 +15,7 @@ from typing import TYPE_CHECKING, TypeVar, cast
 from fastapi import FastAPI, HTTPException, Request
 from langgraph.types import Checkpointer
 
+from deerflow.config.app_config import get_app_config
 from deerflow.config.app_config import AppConfig
 from deerflow.persistence.feedback import FeedbackRepository
 from deerflow.runtime import RunContext, RunManager, StreamBridge
@@ -31,8 +32,16 @@ T = TypeVar("T")
 
 
 def get_config(request: Request) -> AppConfig:
-    """Return the app-scoped ``AppConfig`` stored on ``app.state``."""
-    config = getattr(request.app.state, "config", None)
+    """Return the current app config, reloading file-backed config changes."""
+    try:
+        config = get_app_config()
+        request.app.state.config = config
+        return config
+    except Exception:
+        # Keep serving with the startup config if a transient reload error
+        # happens after the gateway has already booted.
+        config = getattr(request.app.state, "config", None)
+
     if config is None:
         raise HTTPException(status_code=503, detail="Configuration not available")
     return config

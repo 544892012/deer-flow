@@ -429,6 +429,41 @@ def test_reasoning_effort_preserved_when_supported(monkeypatch):
     assert captured.get("reasoning_effort") == "minimal"
 
 
+def test_deepseek_v4_non_thinking_drops_reasoning_effort(monkeypatch):
+    """DeepSeek v4 rejects reasoning_effort when thinking is disabled."""
+    cfg = _make_app_config(
+        [
+            ModelConfig(
+                name="deepseek-v4-flash",
+                display_name="DeepSeek V4 Flash",
+                description=None,
+                use="deerflow.models.patched_deepseek:PatchedChatDeepSeek",
+                model="deepseek-v4-flash",
+                supports_thinking=True,
+                supports_reasoning_effort=True,
+                supports_vision=False,
+                when_thinking_enabled={"extra_body": {"thinking": {"type": "enabled"}}},
+                when_thinking_disabled={"extra_body": {"thinking": {"type": "disabled"}}},
+            )
+        ]
+    )
+    _patch_factory(monkeypatch, cfg)
+
+    captured: dict = {}
+
+    class CapturingModel(FakeChatModel):
+        def __init__(self, **kwargs):
+            captured.update(kwargs)
+            BaseChatModel.__init__(self, **kwargs)
+
+    monkeypatch.setattr(factory_module, "resolve_class", lambda path, base: CapturingModel)
+
+    factory_module.create_chat_model(name="deepseek-v4-flash", thinking_enabled=False, reasoning_effort="high")
+
+    assert captured.get("extra_body") == {"thinking": {"type": "disabled"}}
+    assert "reasoning_effort" not in captured
+
+
 # ---------------------------------------------------------------------------
 # thinking shortcut field
 # ---------------------------------------------------------------------------

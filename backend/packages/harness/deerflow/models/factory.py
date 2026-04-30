@@ -113,6 +113,13 @@ def create_chat_model(name: str | None = None, thinking_enabled: bool = False, *
     if not model_config.supports_reasoning_effort:
         kwargs.pop("reasoning_effort", None)
         model_settings_from_config.pop("reasoning_effort", None)
+    elif (
+        not thinking_enabled
+        and str(model_settings_from_config.get("model", "")).startswith("deepseek-v4-")
+        and model_settings_from_config.get("extra_body", {}).get("thinking", {}).get("type") == "disabled"
+    ):
+        kwargs.pop("reasoning_effort", None)
+        model_settings_from_config.pop("reasoning_effort", None)
 
     _enable_stream_usage_by_default(model_config.use, model_settings_from_config)
 
